@@ -14,7 +14,7 @@ export class ResponseData {
   ) {
     this.code = code;
     this.msg = msg;
-    this.data = data || null;
+    this.data = data;
   }
 
   /**

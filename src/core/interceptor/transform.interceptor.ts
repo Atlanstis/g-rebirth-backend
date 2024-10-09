@@ -6,8 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable, map } from 'rxjs';
-import { ResponseData } from 'src/classes';
-import { IS_RAW_DATA } from 'src/core';
+import { IS_RAW_DATA, ResponseData } from 'src/core';
 
 @Injectable()
 export class TransformInterceptor implements NestInterceptor {
