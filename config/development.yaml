@@ -1,0 +1,14 @@
+# mysql 配置
+mysql:
+  # 数据库 host
+  host: 'localhost'
+  # 数据库端口
+  port: 3306
+  # 数据库用户名
+  username: 'root'
+  # 数据库密码
+  password: 'j!Y6hTwR'
+  # 连接数据库信息
+  database: 'gypsophila'
+# 服务启动端口
+port: 3000

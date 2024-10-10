@@ -1,17 +1,19 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { setupInterceptor, setupFilter } from './core';
+import { setupInterceptor, setupFilter, Configuration } from './core';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // 注册拦截器
   setupInterceptor(app);
-
   // 注册过滤器
   setupFilter(app);
 
-  await app.listen(3000);
+  const configService = app.get(ConfigService);
+  const port = configService.get<Configuration['port']>('port');
+  await app.listen(port);
 }
 
 bootstrap();
