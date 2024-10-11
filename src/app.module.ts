@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { yamlConfiguration, validateEnvironment } from './core/config';
+import { yamlConfiguration, validateEnvironment, ormConfig } from './core';
+import { TypeOrmModule } from '@nestjs/typeorm';
 // import * as Joi from 'joi';
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { yamlConfiguration, validateEnvironment } from './core/config';
       /** 验证环境参数 */
       validate: validateEnvironment,
     }),
+    TypeOrmModule.forRoot(ormConfig),
   ],
   controllers: [AppController],
   providers: [AppService],

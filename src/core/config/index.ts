@@ -38,3 +38,5 @@ export function validateEnvironment(config: Record<string, unknown>) {
   }
   return validatedConfig;
 }
+
+export * from './typeorm';
