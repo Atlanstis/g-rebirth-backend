@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { yamlConfiguration, validateEnvironment, ormConfig } from './core';
 import { TypeOrmModule } from '@nestjs/typeorm';
-// import * as Joi from 'joi';
+import { yamlConfiguration, validateEnvironment, ormConfig } from './core';
+import { UserModule, AuthModule } from './modules';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -18,8 +17,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       validate: validateEnvironment,
     }),
     TypeOrmModule.forRoot(ormConfig),
+    UserModule,
+    AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
