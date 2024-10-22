@@ -30,7 +30,7 @@ function encryptWithAES(data: string) {
 
   // 返回加密数据、AES密钥和IV
   return {
-    encryptedData: encryptedData,
+    data: encryptedData,
     key: key,
     iv: iv,
   };
@@ -77,7 +77,7 @@ export function hybridEncrypt(data: string) {
   const aesResult = encryptWithAES(data);
   const encryptedKey = encryptKeyWithRSA(aesResult.key); // RSA加密AES密钥
   return {
-    encryptedData: aesResult.encryptedData,
+    data: aesResult.data,
     encryptedKey: encryptedKey,
     iv: aesResult.iv.toString('base64'), // 初始向量也需要传输
   };
