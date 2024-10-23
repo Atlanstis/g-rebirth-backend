@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ResponseData } from '../classes';
+import { UnauthorizedException } from '../exception';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -23,7 +24,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
       message = response.message.join('；');
     }
 
-    const data = ResponseData.error(undefined, message);
+    let data = ResponseData.error(undefined, message);
+
+    // 处理授权认证出错
+    if (exception instanceof UnauthorizedException) {
+      data = exception.getResponseData();
+    }
 
     response.status(HttpStatus.OK).json(data);
   }

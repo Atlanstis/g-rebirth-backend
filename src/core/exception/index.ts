@@ -1,1 +1,2 @@
-export * from './business.exception';
+export { BusinessException } from './business.exception';
+export { UnauthorizedException } from './unauthorized.exception';

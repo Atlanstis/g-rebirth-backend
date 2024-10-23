@@ -4,6 +4,10 @@ export const enum ResponseCode {
   SUCCESS = 0,
   /** 访问错误 */
   ERROR = -1,
+  /** 未认证 */
+  UNAUTHORIZED = -2,
+  /** 认证过期，需重新认证 */
+  RE_UNAUTHORIZED = -3,
 }
 
 export class ResponseData {

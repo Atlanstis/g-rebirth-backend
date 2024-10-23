@@ -9,9 +9,23 @@ export class MysqlConf {
   database: string;
 }
 
+export class JwtConf {
+  secret: string;
+  accessExpire: number;
+  refreshExpire: number;
+}
+
+export class RedisConf {
+  host: string;
+  port: number;
+}
+
 /** 配置信息 */
 export class Configuration {
   mysql: MysqlConf;
+  redis: RedisConf;
+  /** jwt*/
+  jwt: JwtConf;
   /** 启动端口 */
   port: number;
 }

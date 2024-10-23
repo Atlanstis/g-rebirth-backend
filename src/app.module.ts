@@ -1,8 +1,14 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { yamlConfiguration, validateEnvironment, ormConfig } from './core';
+import {
+  yamlConfiguration,
+  validateEnvironment,
+  ormConfig,
+  Configuration,
+} from './core';
 import { UserModule, AuthModule } from './modules';
+import { RedisModule } from './util-modules';
 
 @Module({
   imports: [
@@ -17,6 +23,17 @@ import { UserModule, AuthModule } from './modules';
       validate: validateEnvironment,
     }),
     TypeOrmModule.forRoot(ormConfig),
+    RedisModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        const redisConfig = configService.get<Configuration['redis']>('redis');
+        return {
+          ...redisConfig,
+          isGlobal: true,
+        };
+      },
+    }),
     UserModule,
     AuthModule,
   ],
