@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 import * as yaml from 'js-yaml';
 import { join } from 'path';
-import { Configuration, Environment, EnvironmentConf } from '../classes';
+import { Configuration, Environment, EnvironmentConf } from 'src/core';
 import { plainToClass } from 'class-transformer';
 import { validateSync } from 'class-validator';
 

@@ -1,12 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import {
-  yamlConfiguration,
-  validateEnvironment,
-  ormConfig,
-  Configuration,
-} from './core';
+import { Configuration } from './core';
+import { yamlConfiguration, validateEnvironment, ormConfig } from 'src/config';
 import { UserModule, AuthModule } from './modules';
 import { RedisModule } from './util-modules';
 

@@ -1,7 +1,7 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { yamlConfiguration } from '.';
-import { MysqlConf } from '../classes';
-import { User, UserAuthMethod } from '../../modules';
+import { MysqlConf } from 'src/core/classes';
+import { User, UserAuthMethod } from 'src/modules';
 
 const mysqlConfing = yamlConfiguration().mysql as MysqlConf;
 
