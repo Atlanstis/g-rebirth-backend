@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { UserService } from './user.service';
-import { RegisterDto } from './dto';
+import { RegisterDto, UserBindRolesDto } from './dto';
 
 @Controller('user')
 export class UserController {
@@ -8,6 +8,12 @@ export class UserController {
 
   @Post('register')
   async register(@Body() dto: RegisterDto) {
-    await this.userService.register(dto);
+    return await this.userService.register(dto);
+  }
+
+  /** 用户绑定角色 */
+  @Post('bind/roles')
+  async bindRoles(@Body() dto: UserBindRolesDto) {
+    return await this.userService.bindRoles(dto);
   }
 }
