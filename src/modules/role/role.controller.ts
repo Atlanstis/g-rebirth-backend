@@ -1,7 +1,13 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { JwtGuard } from 'src/core';
-import { RoleAddDto, RoleDeleteDto, RoleSearchDto, RoleUpdateDto } from './dto';
+import {
+  RoleAddDto,
+  RoleBindMenusDto,
+  RoleDeleteDto,
+  RoleSearchDto,
+  RoleUpdateDto,
+} from './dto';
 
 @Controller('role')
 @UseGuards(JwtGuard)
@@ -30,5 +36,11 @@ export class RoleController {
   @Post('delete')
   async delete(@Body() dto: RoleDeleteDto) {
     return await this.roleService.delete(dto);
+  }
+
+  /** 角色绑定菜单 */
+  @Post('bind/menus')
+  async bindRoles(@Body() dto: RoleBindMenusDto) {
+    return await this.roleService.bindRoles(dto);
   }
 }

@@ -40,3 +40,14 @@ export class RoleDeleteDto {
   @IsNumber({}, { each: true, message: '角色 id 格式错误' })
   ids: number[];
 }
+
+export class RoleBindMenusDto {
+  @IsNotEmpty({ message: '角色 id 不能为空' })
+  @IsNumber({}, { message: '角色 id 格式错误' })
+  roleId: number;
+  @IsNotEmpty({ message: '菜单 id 不能为空' })
+  @IsArray({ message: '菜单 id 格式错误' })
+  @ArrayNotEmpty({ message: '菜单 id 不能为空' })
+  @IsNumber({}, { each: true, message: '菜单 id 格式错误' })
+  menuIds: [];
+}

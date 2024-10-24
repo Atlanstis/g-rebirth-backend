@@ -1,8 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, In, Not, Repository } from 'typeorm';
-import { RoleAddDto, RoleDeleteDto, RoleSearchDto, RoleUpdateDto } from './dto';
-import { Role } from 'src/entities';
+import {
+  RoleAddDto,
+  RoleBindMenusDto,
+  RoleDeleteDto,
+  RoleSearchDto,
+  RoleUpdateDto,
+} from './dto';
+import { Menu, Role } from 'src/entities';
 import { BusinessException } from 'src/core';
 
 @Injectable()
@@ -10,6 +16,8 @@ export class RoleService {
   constructor(
     @InjectRepository(Role)
     private readonly roleRepo: Repository<Role>,
+    @InjectRepository(Menu)
+    private readonly menuRepo: Repository<Menu>,
   ) {}
 
   /** 角色-新增 */
@@ -73,6 +81,19 @@ export class RoleService {
       throw new BusinessException(`角色（${roleNames}）被绑定，无法删除`);
     }
     await this.roleRepo.remove(roles);
+  }
+
+  /** 角色绑定菜单 */
+  async bindRoles(dto: RoleBindMenusDto) {
+    const { roleId, menuIds } = dto;
+    let role = await this.findOne(
+      { id: roleId },
+      (user) => !user,
+      '当前角色不存在',
+    );
+    const menus = await this.menuRepo.find({ where: { id: In(menuIds) } });
+    role = this.roleRepo.create({ ...role, menus });
+    await this.roleRepo.save(role);
   }
 
   /**

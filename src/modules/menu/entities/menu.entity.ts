@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Role } from 'src/entities';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 export const MenuKeyLength = {
   nameMin: 2,
@@ -27,4 +34,18 @@ export class Menu {
     unique: true,
   })
   key: string;
+
+  @ManyToMany(() => Role, (role) => role.menus)
+  @JoinTable({
+    name: 'role_menu',
+    joinColumn: {
+      name: 'menu_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'role_id',
+      referencedColumnName: 'id',
+    },
+  })
+  roles: Role[];
 }
