@@ -68,7 +68,16 @@ export class MenuService {
   async delete(dto: MenuDeleteDto) {
     const menus = await this.menuRepo.find({
       where: { id: In(dto.ids) },
+      relations: {
+        roles: true,
+      },
     });
+    // 存在被角色绑定的菜单，则无法删除
+    const existRoleMenus = menus.filter((menu) => menu.roles.length > 0);
+    if (existRoleMenus.length) {
+      const roleNames = existRoleMenus.map((role) => role.name).join('、');
+      throw new BusinessException(`菜单（${roleNames}）被绑定，无法删除`);
+    }
     await this.menuRepo.remove(menus);
   }
 
