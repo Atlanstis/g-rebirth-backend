@@ -1,0 +1,87 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FindOptionsWhere, In, Not, Repository } from 'typeorm';
+import { RoleAddDto, RoleDeleteDto, RoleSearchDto, RoleUpdateDto } from './dto';
+import { Role } from 'src/entities';
+import { BusinessException } from 'src/core';
+
+@Injectable()
+export class RoleService {
+  constructor(
+    @InjectRepository(Role)
+    private readonly roleRepo: Repository<Role>,
+  ) {}
+
+  /** 角色-新增 */
+  async add(dto: RoleAddDto) {
+    await this.findOne(
+      { name: dto.name },
+      (role) => !!role,
+      '当前角色名已存在',
+    );
+    const role = this.roleRepo.create(dto);
+    return await this.roleRepo.save(role);
+  }
+
+  /** 角色-编辑 */
+  async update(dto: RoleUpdateDto) {
+    const role = await this.findOne(
+      { id: dto.id },
+      (role) => !role,
+      '当前角色不存在',
+    );
+    await this.findOne(
+      {
+        name: dto.name,
+        id: Not(dto.id),
+      },
+      (role) => !!role,
+      '当前角色名已存在，请输入新的角色名',
+    );
+    const newRole = this.roleRepo.create({ ...role, ...dto });
+    return await this.roleRepo.save(newRole);
+  }
+
+  /** 角色-分页查询 */
+  async page(dto: RoleSearchDto) {
+    const { page, size } = dto;
+    const [list, total] = await this.roleRepo.findAndCount({
+      skip: (page - 1) * size,
+      take: size,
+      order: {
+        id: 'ASC',
+      },
+    });
+    return {
+      list,
+      total,
+    };
+  }
+
+  /** 角色-删除 */
+  async delete(dto: RoleDeleteDto) {
+    const roles = await this.roleRepo.find({
+      where: { id: In(dto.ids) },
+    });
+    await this.roleRepo.remove(roles);
+  }
+
+  /**
+   * 查找单条角色数据
+   * @param where 查询条件
+   * @param judgeFn 异常抛出判断函数，执行为 true 时，抛出异常
+   * @param errorMsg 异常信息
+   * @returns 角色数据
+   */
+  async findOne(
+    where: FindOptionsWhere<Role>,
+    judgeFn: (role: Role) => boolean,
+    errorMsg = '',
+  ) {
+    const role = await this.roleRepo.findOneBy(where);
+    if (judgeFn(role)) {
+      throw new BusinessException(errorMsg);
+    }
+    return role;
+  }
+}

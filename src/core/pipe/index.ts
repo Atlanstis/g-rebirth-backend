@@ -6,6 +6,7 @@ export function setupPipe(app: INestApplication) {
     new ValidationPipe({
       transform: true,
       whitelist: true,
+      stopAtFirstError: true,
     }),
   );
 }

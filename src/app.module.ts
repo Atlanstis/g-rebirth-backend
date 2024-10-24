@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Configuration } from './core';
 import { yamlConfiguration, validateEnvironment, ormConfig } from 'src/config';
-import { UserModule, AuthModule } from './modules';
+import { UserModule, AuthModule, RoleModule } from './modules';
 import { RedisModule } from './util-modules';
 
 @Module({
@@ -32,6 +32,7 @@ import { RedisModule } from './util-modules';
     }),
     UserModule,
     AuthModule,
+    RoleModule,
   ],
   controllers: [],
   providers: [],

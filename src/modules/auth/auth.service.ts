@@ -10,7 +10,7 @@ import {
 } from 'src/core';
 import { hybridDecrypt } from 'src/utils';
 import { LoginDto, TokenRefreshDto } from './dto';
-import { MethodTypeEnum, User, UserAuthMethod } from '../user';
+import { MethodTypeEnum, User, UserAuthMethod } from 'src/entities';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { createJwt, getJwtRedisKey } from 'src/utils';

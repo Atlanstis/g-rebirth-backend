@@ -2,10 +2,11 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { UserAuthMethod } from './user-auth-method.entity';
+import { Role, UserAuthMethod } from 'src/entities';
 
 export const UserLength = {
   /** 用户名最大长度 */
@@ -14,7 +15,7 @@ export const UserLength = {
   nickNameMax: 12,
 };
 
-@Entity({ name: 'user' })
+@Entity({ name: 'user', comment: '用户信息' })
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -32,6 +33,9 @@ export class User {
 
   @OneToMany(() => UserAuthMethod, (authMethod) => authMethod.user)
   authMethods: UserAuthMethod[];
+
+  @ManyToMany(() => Role, (role) => role.users)
+  roles: Role[];
 
   @Column({
     name: 'create_time',

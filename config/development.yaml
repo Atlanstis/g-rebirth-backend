@@ -11,7 +11,7 @@ mysql:
   # 连接数据库信息
   database: 'g-rebirth'
   # 是否自动同步数据库表格式
-  synchronize: false
+  synchronize: true
 # redis 配置
 redis:
   # host

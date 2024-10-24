@@ -14,7 +14,7 @@ export enum MethodTypeEnum {
   password = 'password',
 }
 
-@Entity({ name: 'user_auth_method' })
+@Entity({ name: 'user_auth_method', comment: '用户认证方式' })
 export class UserAuthMethod {
   @PrimaryGeneratedColumn()
   id: number;
