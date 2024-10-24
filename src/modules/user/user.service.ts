@@ -75,7 +75,7 @@ export class UserService {
    * @param where 查询条件
    * @param judgeFn 异常抛出判断函数，执行为 true 时，抛出异常
    * @param errorMsg 异常信息
-   * @returns 角色数据
+   * @returns 用户数据
    */
   async findOne(
     where: FindOptionsWhere<User>,

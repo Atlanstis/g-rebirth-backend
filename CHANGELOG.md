@@ -7,3 +7,4 @@
 - **mysql** 增加 mysql 连接
 - **认证** 完善双 token 机制
 - **角色** CRUD
+- **菜单** CRUD
