@@ -62,7 +62,16 @@ export class RoleService {
   async delete(dto: RoleDeleteDto) {
     const roles = await this.roleRepo.find({
       where: { id: In(dto.ids) },
+      relations: {
+        users: true,
+      },
     });
+    // 存在被用户绑定的角色， 则无法删除
+    const existUserRoles = roles.filter((role) => role.users.length > 0);
+    if (existUserRoles.length) {
+      const roleNames = existUserRoles.map((role) => role.name).join('、');
+      throw new BusinessException(`角色（${roleNames}）被绑定，无法删除`);
+    }
     await this.roleRepo.remove(roles);
   }
 
